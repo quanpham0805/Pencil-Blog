@@ -1,0 +1,131 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+
+<style>
+	.login-form {
+		width: 390px;
+		margin: 0 auto;
+		padding: 30px 0;
+	}
+	.form-control, .form-control:focus, .input-group-prepend {
+		border-color: #e1e1e1;
+        border-radius: 0;
+	}
+	.login-form .input-group {
+		flex-direction:	row-reverse;
+	}
+	.login-form h2 {
+		color: #636363;
+        margin: 0 0 15px;
+		text-align: center;
+    }
+    .login-form form {
+		border-radius: 7px;
+    	margin-bottom: 15px;
+        background: #fff;
+		border: 1px solid #f3f3f3;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+    .login-form .form-group {
+		margin-bottom: 20px;
+	}
+	.login-form .form-control {
+		min-height: 38px;
+		box-shadow: none !important;
+		border-width: 0 0 2px 0;
+	}
+	.login-form .btn {
+        font-size: 16px;
+        font-weight: bold;
+		background: #19aa8d;
+        border-radius: 3px;
+		border: none;
+		min-width: 140px;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    .login-form .btn:hover, .login-form .btn:focus {
+		background: #179b81 !important;
+	}
+	.login-form .fa {
+		font-size: 20px;
+		left: 8px;
+		position: absolute;
+	}
+	.login-form .input-group-text {
+		background-color: #fff;
+		border-width: 0 0 2px 0;
+		border-radius: 0;
+		border-color: #e1e1e1;
+	}
+	.login-form .input-group-prepend {
+		text-align: center;
+		padding-left: 3px;
+	}
+	.login-form .input-group-text-danger {
+		border-color: #dc3545	;
+	}
+	.login-form .form-control:focus {
+		border-color: #0275d8;
+	}
+	.login-form .form-control:focus + .input-group-prepend .input-group-text {
+		border-color: #0275d8;
+	}
+	.login-form .text-danger {
+		position: relative;
+		font-size: 0.9em;
+		padding-left: 4px;
+		line-height: 16px;
+	}
+</style>
+
+<div class="login-form">
+	<form method="POST">
+		{% csrf_token %}
+		<h2>Login</h2>
+		<div class="form-group">
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control {% if form.errors %}is-invalid{% endif %}"
+					name="{{ form.username.name }}"
+					placeholder="Username"
+					required="required"
+					value="{{ form.username.value|default:'' }}">
+				<div class="input-group-prepend">
+					<span class="input-group-text {% if form.errors %}input-group-text-danger{% endif %}">
+						<i class="fa fa-user"></i>
+					</span>
+				</div>
+			</div>
+        </div>
+        <div class="form-group">
+			<div class="input-group">
+				<input
+					type="password"
+					class="form-control {% if form.errors %}is-invalid{% endif %}"
+					name="{{ form.password.name }}"
+					placeholder="Password"
+					required="required">
+				<div class="input-group-prepend">
+					<span class="input-group-text {% if form.errors %}input-group-text-danger{% endif %}">
+						<i class="fa fa-lock"></i>
+					</span>
+				</div>
+			</div>
+			{% if form.errors %}
+			<div class="text-danger">
+				<small>
+					Please enter a correct username and password.
+					Note that both fields may be case-sensitive.
+				</small>
+			</div>
+			{% endif %}
+        </div>
+		<button type="submit" class="btn btn-primary btn-block btn-lg">Log in</button>
+	</form>
+</div>
+
+{% endblock %}
