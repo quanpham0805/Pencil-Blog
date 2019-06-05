@@ -36,12 +36,13 @@ class Pencil(models.Model):
     # pencil_img =
 
     def publish(self):
-    	if self.pencil_already_published == False:
-	        self.pencil_published_date = timezone.localtime(timezone.now())
-	    	self.pencil_last_updated = self.pencil_published_date
-	    	self.pencil_already_published = True
-	    else:
-	    	self.pencil_last_updated = timezone.localtime(timezone.now())
+        if self.pencil_already_published == False:
+            self.pencil_published_date = timezone.localtime(timezone.now())
+            self.pencil_last_updated = timezone.localtime(timezone.now())
+            self.pencil_already_published = True
+        else:
+            self.pencil_last_updated = timezone.localtime(timezone.now())
+
         self.save()
 
     def __str__(self):
