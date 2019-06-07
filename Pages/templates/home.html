@@ -1,29 +1,33 @@
 {% extends 'navbar.html' %}
 
 {% block content %}
+
+<style>
+	.card-text {
+		font-size: 0.9rem;
+	}
+</style>
+
 <div class="container">
 	<div class="row">
-		<div class="card col">
-		  	<img src="..." class="card-img-top" alt="...">
-		  	<div class="card-body">
-		    	<h5 class="card-title">Card title</h5>
-		    	<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-		    	<div class="text-center">
-			    	<a href="#" class="btn btn-primary">Go somewhere</a>
-			    </div>
-		  	</div>
-		</div>
-		<div class="card col">
-		  	<img src="..." class="card-img-top" alt="...">
-		  	<div class="card-body">
-		    	<h5 class="card-title">Card title</h5>
-		    	<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-		    	<div class="text-center">
-		    		<a href="#" class="btn btn-primary">Go somewhere</a>
-		    	</div>
-		  	</div>
-		</div>
+
+		{% for typ in types %}
+			<div class="col-md-4 col-sm-6 col-12 pb-4">
+				<div class="card">
+				  	<img src="https://blog.pencils.com/wp-content/uploads/2016/11/211inActionBlackwing-710x375.png" class="card-img-top" alt="...">
+				  	<div class="card-body d-flex flex-column">
+				    	<h4 class="card-title">{{ typ.type_name }}</h4>
+				    	<p class="card-text">{{typ.type_description}}</p>
+				    	<div class="text-center mt-auto">
+				    		<a href="{{typ.type_slug}}" class="btn btn-primary ">View</a>
+				    	</div>
+				  	</div>
+			  	</div>
+			</div>
+	  	{% endfor %}
+
+
 	</div>
 </div>
-{% endblock %}
 
+{% endblock %}

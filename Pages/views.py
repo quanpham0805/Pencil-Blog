@@ -2,10 +2,30 @@ from django.shortcuts import render, redirect
 from .form import RegisterForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from .models import Pencil, PencilManufacturer, PencilType
+from django.http import HttpResponse
 # Create your views here.
 
 def home(request):
-	return render(request, template_name='home.html')
+	return render(request, template_name='home.html', context={"types": PencilType.objects.all})
+
+def single_slug(request, single_slug):
+    types = [valtype.type_slug for valtype in PencilType.objects.all()]
+    if single_slug in types:
+      return HttpResponse(f"{single_slug} is a type")
+
+    pencils = [valpencil.pencil_slug for valpencil in Pencil.objects.all()]
+    if single_slug in pencils:
+      return HttpResponse(f"{single_slug} is a Pencil")
+
+    return HttpResponse(f"'{single_slug}' does not correspond to anything we know of!")
+
+
+
+
+
+
+
 
 def register(request):
     if request.user.is_authenticated:
