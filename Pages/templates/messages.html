@@ -1,0 +1,59 @@
+{% if messages %}
+<style>
+    .toast {
+        position: fixed;
+        bottom: 0;
+        right: 5px;
+        z-index: 1;
+        width: 300px;
+    }
+    .toast-header, .button-close {
+        color: white;
+    }
+    .toast-header-primary {
+        background-color: #007bff;
+    }
+    .toast-header-success {
+        background-color: #28a745;
+    }
+    .toast-header-danger {
+        background-color: #dc3545;
+    }
+    .toast-header-warning {
+        background-color: #ffc107;
+    }
+    .toast-header-info {
+        background-color: #17a2b8;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+      $('.toast').toast('show');
+    });
+</script>
+{% for msg in messages %}
+    <div class="toast" data-autohide="true" data-delay="1500">
+        {% if msg.tags == 'success'%}
+        <div class="toast-header toast-header-success">
+            <strong class="mr-auto">Success</strong>
+        {% elif msg.tags == 'info'%}
+        <div class="toast-header toast-header-primary">
+            <strong class="mr-auto">Information</strong>
+        {% elif msg.tags == 'warning'%}
+        <div class="toast-header toast-header-warning">
+            <strong class="mr-auto">Warning</strong>
+        {% elif msg.tags == 'error'%}
+        <div class="toast-header toast-header-danger">
+            <strong class="mr-auto">Error</strong>
+        {% endif %}
+            <button type="button" class="ml-2 mb-1 close button-close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            {{ msg }}
+        </div>
+    </div>
+{% endfor %}
+
+{% endif %}

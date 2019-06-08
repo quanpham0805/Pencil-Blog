@@ -46,7 +46,7 @@ class Pencil(models.Model):
         self.save()
 
     def __str__(self):
-        return self.title
+        return self.pencil_name
 
 class Comment(models.Model):
     comment_post = models.ForeignKey(Pencil, on_delete=models.CASCADE)

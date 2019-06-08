@@ -4,6 +4,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Pencil, PencilManufacturer, PencilType
 from django.http import HttpResponse
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
@@ -12,20 +13,22 @@ def home(request):
 def single_slug(request, single_slug):
     types = [valtype.type_slug for valtype in PencilType.objects.all()]
     if single_slug in types:
-      return HttpResponse(f"{single_slug} is a type")
+        TManufacturers = PencilManufacturer.objects.filter(manufacturer_for_type__type_slug=single_slug)
+        manufacturerURL = {}
+
+        for TVal in TManufacturers.all():
+            temp = Pencil.objects.filter(pencil_for_manufacturer__manufacturer_name=TVal.manufacturer_name).earliest("pencil_published_date")
+            # print(temp.pencil_last_updated)
+            manufacturerURL[TVal] = temp.pencil_slug
+
+        return render(request=request, template_name='manufacturer.html', context={"temp": manufacturerURL})
+
 
     pencils = [valpencil.pencil_slug for valpencil in Pencil.objects.all()]
     if single_slug in pencils:
-      return HttpResponse(f"{single_slug} is a Pencil")
+        return HttpResponse(f"{single_slug} is a Pencil")
 
     return HttpResponse(f"'{single_slug}' does not correspond to anything we know of!")
-
-
-
-
-
-
-
 
 def register(request):
     if request.user.is_authenticated:
@@ -36,10 +39,11 @@ def register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            #messages.success(request, f"New account created: {username}")
+            messages.success(request, f"New account created: {username}")
             login(request, user)
             return redirect("/")
         else:
+            messages.error(request, "Invalid information")
             return render(request = request, template_name = "register.html", context = {"form": form})
 
     form = RegisterForm
@@ -59,18 +63,18 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                #messages.info(request, f"You are now logged in as {username}")
+                messages.info(request, f"You are now logged in as {username}")
                 return redirect('/')
             else:
+                messages.error(request, "Invalid username or password.")
                 return render(request = request,
                     template_name = "login.html",
                     context={"form":form})
-                #messages.error(request, "Invalid username or password.")
         else:
+            messages.error(request, "Invalid username or password.")
             return render(request = request,
                     template_name = "login.html",
                     context={"form":form})
-            #messages.error(request, "Invalid username or password.")
     form = AuthenticationForm
     return render(request = request,
                     template_name = "login.html",
@@ -78,5 +82,5 @@ def login_request(request):
 
 def logout_request(request):
     logout(request)
-    #messages.info(request, "Logged out successfully!")
+    messages.info(request, "Logged out successfully!")
     return redirect("/")
