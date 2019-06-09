@@ -2,7 +2,7 @@
 <style>
     .message-wrapper {
         position: fixed;
-        bottom: 0px;
+        bottom: 5px;
         right: 5px;
         z-index: 1;
     }
@@ -36,7 +36,8 @@
 </script>
 <div class="message-wrapper">
 {% for msg in messages %}
-    <div class="toast" data-autohide="false" data-delay="1500">
+    <!-- <p>{{msg.tags}}</p> -->
+    <div class="toast" data-autohide="true" data-delay="1500">
         {% if msg.tags == 'success'%}
         <div class="toast-header toast-header-success">
             <strong class="mr-auto">Success</strong>

@@ -51,6 +51,10 @@ def register(request):
                   template_name = "register.html",
                   context = {"form": form})
 
+def info_once_only(request, msg):
+    if msg not in [m.message for m in messages.get_messages(request)]:
+        messages.warning(request, msg)
+
 def login_request(request):
     if request.user.is_authenticated:
         return redirect('/')
