@@ -18,7 +18,6 @@ def single_slug(request, single_slug):
 
         for TVal in TManufacturers.all():
             temp = Pencil.objects.filter(pencil_for_manufacturer__manufacturer_name=TVal.manufacturer_name).earliest("pencil_published_date")
-            # print(temp.pencil_last_updated)
             manufacturerURL[TVal] = temp.pencil_slug
 
         return render(request=request, template_name='manufacturer.html', context={"temp": manufacturerURL})
@@ -26,7 +25,8 @@ def single_slug(request, single_slug):
 
     pencils = [valpencil.pencil_slug for valpencil in Pencil.objects.all()]
     if single_slug in pencils:
-        return HttpResponse(f"{single_slug} is a Pencil")
+        TPencil = Pencil.objects.filter(pencil_slug=single_slug)
+        return render(request=request, template_name="pencil.html", context={"pencils":TPencil})
 
     return HttpResponse(f"'{single_slug}' does not correspond to anything we know of!")
 
@@ -63,7 +63,7 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}")
+                messages.success(request, f"You are now logged in as {username}")
                 return redirect('/')
             else:
                 messages.error(request, "Invalid username or password.")
@@ -81,6 +81,10 @@ def login_request(request):
                     context={"form":form})
 
 def logout_request(request):
+    if not request.user.is_authenticated:
+        messages.warning(request, "You must log in to log out 😉")
+        return redirect("/")
+
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("/")

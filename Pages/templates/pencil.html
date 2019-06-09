@@ -11,15 +11,15 @@
 <div class="container">
 	<div class="row">
 
-		{% for typ in types %}
+		{% for pencil in pencils %}
 			<div class="col-md-4 col-sm-6 col-12 pb-4 d-flex align-items-stretch">
 				<div class="card">
 				  	<img src="https://blog.pencils.com/wp-content/uploads/2016/11/211inActionBlackwing-710x375.png" class="card-img-top" alt="...">
 				  	<div class="card-body d-flex flex-column">
-				    	<h4 class="card-title">{{ typ.type_name }}</h4>
-				    	<p class="card-text">{{typ.type_description}}</p>
+				    	<h4 class="card-title">{{ pencil.pencil_name }}</h4>
+				    	<p class="card-text">{{pencil.pencil_description}}</p>
 				    	<div class="text-center mt-auto">
-				    		<a href="{{typ.type_slug}}" class="btn btn-primary ">View</a>
+				    		<a href="{{pencil.pencil_slug}}" class="btn btn-primary ">View</a>
 				    	</div>
 				  	</div>
 			  	</div>
