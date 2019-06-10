@@ -29,21 +29,9 @@ class Pencil(models.Model):
     pencil_name = models.CharField(max_length=200)
     pencil_description = models.TextField()
     pencil_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    pencil_last_updated = models.DateTimeField(blank=True, null=True)
     pencil_published_date = models.DateTimeField(blank=True, null=True)
-    pencil_already_published = models.BooleanField(default=False)
     pencil_slug = models.CharField(max_length=200, default=1)
     pencil_img = models.ImageField(upload_to='images', blank=True)
-
-    def publish(self):
-        if self.pencil_already_published == False:
-            self.pencil_published_date = timezone.localtime(timezone.now())
-            self.pencil_last_updated = timezone.localtime(timezone.now())
-            self.pencil_already_published = True
-        else:
-            self.pencil_last_updated = timezone.localtime(timezone.now())
-
-        self.save()
 
     def __str__(self):
         return self.pencil_name
