@@ -1,3 +1,9 @@
+<style>
+    div ul .nav-item {
+        min-width: 70px;
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
     <a class="navbar-brand" href="/">
         <img src="https://pythonprogramming.net/static/images/mainlogowhitethick.jpg" width="30px" height="30px">
@@ -15,6 +21,9 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://github.com/quanpham0805/Pencil-Blog">About</a>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="/">{{user.username}}</a>
