@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .form import RegisterForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Pencil, PencilManufacturer, PencilType
+from .models import Pencil, PencilManufacturer, PencilType, Comment
 from django.http import HttpResponse
 from django.contrib import messages
 # Create your views here.
@@ -25,10 +25,13 @@ def single_slug(request, single_slug):
 
     pencils = [valpencil.pencil_slug for valpencil in Pencil.objects.all()]
     if single_slug in pencils:
-        TPencil = Pencil.objects.filter(pencil_slug=single_slug)
-        return render(request=request, template_name="pencil.html", context={"pencils":TPencil})
+        TPencil = Pencil.objects.get(pencil_slug=single_slug)
+        allPencil = Pencil.objects.filter(pencil_for_manufacturer__manufacturer_name=TPencil.pencil_for_manufacturer).order_by('pencil_published_date')
+        comments = Comment.objects.filter(comment_post__pencil_slug=TPencil.pencil_slug).order_by('comment_published_date')
+        return render(request=request, template_name="pencil.html", context={"pencil":TPencil, "allPencil":allPencil, "comments":comments})
 
-    return HttpResponse(f"'{single_slug}' does not correspond to anything we know of!")
+
+    return HttpResponse(f"'{single_slug}' is not available")
 
 def register(request):
     if request.user.is_authenticated:

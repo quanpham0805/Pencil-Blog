@@ -10,7 +10,7 @@ class PencilType(models.Model):
     type_name = models.CharField(max_length=100)
     type_description = models.CharField(max_length=300)
     type_slug = models.CharField(max_length=200, default=1)
-    #type_img =
+    type_img = models.ImageField(upload_to='images', blank=True)
 
     def __str__(self):
         return self.type_name
@@ -19,7 +19,7 @@ class PencilManufacturer(models.Model):
     manufacturer_for_type = models.ForeignKey(PencilType, default=1, verbose_name="Type", on_delete=models.SET_DEFAULT)
     manufacturer_name = models.CharField(max_length=100)
     manufacturer_description = models.CharField(max_length=300)
-    #manufacturer_img =
+    manufacturer_img = models.ImageField(upload_to='images', blank=True)
 
     def __str__(self):
         return self.manufacturer_name
@@ -33,7 +33,7 @@ class Pencil(models.Model):
     pencil_published_date = models.DateTimeField(blank=True, null=True)
     pencil_already_published = models.BooleanField(default=False)
     pencil_slug = models.CharField(max_length=200, default=1)
-    # pencil_img =
+    pencil_img = models.ImageField(upload_to='images', blank=True)
 
     def publish(self):
         if self.pencil_already_published == False:
@@ -55,4 +55,4 @@ class Comment(models.Model):
     comment_published_date = models.DateTimeField(timezone.localtime(timezone.now()))
 
     def __str__(self):
-        return self.text
+        return self.comment_text
