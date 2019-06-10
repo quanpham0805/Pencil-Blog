@@ -32,7 +32,7 @@ class PencilAdmin(admin.ModelAdmin):
 	list_filter = ['pencil_author', 'pencil_published_date']
 	fieldsets = [
 		("Pencil", {'fields': ["pencil_name"]}),
-        ("Description", {'fields': ["pencil_description"]}),
+        ("Description", {'fields': ["pencil_description", "pencil_brief_description"]}),
         ("Author", {'fields': ["pencil_author"]}),
         ("Published date", {'fields': ["pencil_published_date"]}),
         ("Slug", {'fields': ["pencil_slug"]}),

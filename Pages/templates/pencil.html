@@ -81,14 +81,14 @@
             <li>
                 <div class="accordion">
   					<div class="card">
-    					<div class="card-header rounded-0" id="{{allPencil.pk}}">
-        						<button class="btn" data-toggle="collapse" data-target="#{{allPencil.pencil_slug}}" aria-expanded="false" aria-controls="{{allPencil.pencil_slug}}"> {{ allPencil.pencil_name }}
+    					<div class="card-header rounded-0" id="FID{{allPencil.pk}}">
+        						<button class="btn" data-toggle="collapse" data-target="#SID{{allPencil.pk}}" aria-expanded="false" aria-controls="SID{{allPencil.pk}}"> {{ allPencil.pencil_name }}
         						</button>
     					</div>
 
-    					<div id="{{allPencil.pencil_slug}}" class="collapse" aria-labelledby="{{allPencil.pk}}">
+    					<div id="SID{{allPencil.pk}}" class="collapse" aria-labelledby="FID{{allPencil.pk}}">
       						<div class="card-body" style="color: black;">
-      							{{ allPencil.pencil_description }}
+      							{{ allPencil.pencil_brief_description }}
       						</div>
       						{% if allPencil.pencil_slug == pencil.pencil_slug %}
       						<div class="text-center mt-auto mb-2">

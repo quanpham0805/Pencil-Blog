@@ -33,6 +33,7 @@ class PencilManufacturer(models.Model):
 class Pencil(models.Model):
     pencil_for_manufacturer = models.ForeignKey(PencilManufacturer, default=1, verbose_name="Pencil", on_delete=models.SET_DEFAULT)
     pencil_name = models.CharField(max_length=200)
+    pencil_brief_description = models.CharField(max_length=300, default=pencil_name)
     pencil_description = models.TextField()
     pencil_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     pencil_published_date = models.DateTimeField(timezone.localtime(timezone.now()))
