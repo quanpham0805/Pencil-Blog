@@ -51,5 +51,8 @@ class Comment(models.Model):
     comment_text = models.TextField()
     comment_published_date = models.DateTimeField(timezone.localtime(timezone.now()))
 
+    def published_date(self):
+        return self.comment_published_date
+
     def __str__(self):
         return self.comment_text[:25]
