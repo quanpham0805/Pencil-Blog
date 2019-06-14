@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .form import RegisterForm, CommentForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from .models import Pencil, PencilManufacturer, PencilType, Comment
 from django.http import HttpResponse
 from django.contrib import messages
@@ -27,7 +28,7 @@ def single_slug(request, single_slug):
     if single_slug in pencils:
         TPencil = Pencil.objects.get(pencil_slug=single_slug)
         allPencil = Pencil.objects.filter(pencil_for_manufacturer__manufacturer_name=TPencil.pencil_for_manufacturer).order_by('pencil_published_date')
-        comments = Comment.objects.filter(comment_post__pencil_slug=TPencil.pencil_slug).order_by('comment_published_date')
+        comments = Comment.objects.filter(comment_post__pencil_slug=TPencil.pencil_slug).order_by('-comment_published_date')
         return render(request=request, template_name="pencil.html", context={"pencil":TPencil, "allPencil":allPencil, "comments":comments})
 
 
@@ -35,7 +36,6 @@ def single_slug(request, single_slug):
 
 def add_comment(request, single_slug):
     if request.method == "POST":
-        print("came here")
         form = CommentForm(request.POST)
         if form.is_valid():
             TComment = form.save(commit=False)
@@ -44,12 +44,12 @@ def add_comment(request, single_slug):
             TComment.comment_post = TPost
             TComment.comment_author = request.user
             TComment.save()
-            return redirect("/")
+            return redirect(f"/{single_slug}")
         else:
-            messages.error(request, "comment not successfully added")
+            messages.error(request, "An error has occur, please try again later 😭")
             return redirect("/")
 
-    form = CommentForm()
+    messages.error(request, "An error has occur, please try again later 😭")
     return redirect("/")
 
 def register(request):
@@ -112,3 +112,10 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("/")
+
+def view_profile(request, user):
+    print(request.user)
+    comments = Comment.objects.filter(comment_author__username=request.user.username).order_by('-comment_published_date')
+    posts = Pencil.objects.filter(pencil_author__username=request.user.username).order_by('-pencil_published_date')
+    return render(request=request, template_name="profile.html", context={"user":request.user, "comments":comments, "posts":posts})
+
