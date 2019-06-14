@@ -12,10 +12,10 @@ timezone.activate(settings.TIME_ZONE)
 # type of pencil. This will be used in the home page
 class PencilType(models.Model):
     # we have the type name, description, slug for url, and the image
-    type_name = models.CharField(max_length=100)
-    type_description = models.CharField(max_length=300)
+    type_name = models.CharField(max_length=100, blank=False)
+    type_description = models.CharField(max_length=300, blank=False)
     type_slug = models.CharField(max_length=200, default=1)
-    type_img = models.ImageField(upload_to='images', blank=True)
+    type_img = models.ImageField(upload_to='images', blank=False)
 
     # we use the name in admin to see clearly
     def __str__(self):
@@ -33,9 +33,9 @@ class PencilManufacturer(models.Model):
     # on_delete set default is when we delete the type, this table will not be deleted, but rather
     # set the default value, which is 1.
     manufacturer_for_type = models.ForeignKey(PencilType, default=1, verbose_name="Type", on_delete=models.SET_DEFAULT)
-    manufacturer_name = models.CharField(max_length=100)
-    manufacturer_description = models.CharField(max_length=300)
-    manufacturer_img = models.ImageField(upload_to='images', blank=True)
+    manufacturer_name = models.CharField(max_length=100, blank=False)
+    manufacturer_description = models.CharField(max_length=300, blank=False)
+    manufacturer_img = models.ImageField(upload_to='images', blank=False)
 
     # the name in the admin page will be the manufacturer name
     def __str__(self):
@@ -51,13 +51,13 @@ class Pencil(models.Model):
     pencil_for_manufacturer = models.ForeignKey(PencilManufacturer, default=1, verbose_name="Pencil", on_delete=models.SET_DEFAULT)
     # the information about this pencil.
     # author will be the foreign key to the author's database. on_delete=models.CASCADE means if the user is deleted, this table will be deleted.
-    pencil_name = models.CharField(max_length=200)
+    pencil_name = models.CharField(max_length=200, blank=False)
     pencil_brief_description = models.CharField(max_length=300, default="pencils")
-    pencil_description = models.TextField()
-    pencil_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    pencil_published_date = models.DateTimeField(timezone.localtime(timezone.now()))
+    pencil_description = models.TextField(blank=False)
+    pencil_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False)
+    pencil_published_date = models.DateTimeField(timezone.localtime(timezone.now()), blank=False)
     pencil_slug = models.CharField(max_length=200, default=1)
-    pencil_img = models.ImageField(upload_to='images', blank=True)
+    pencil_img = models.ImageField(upload_to='images', blank=False)
 
     # in admin, the pencil name will be displayed
     def __str__(self):
