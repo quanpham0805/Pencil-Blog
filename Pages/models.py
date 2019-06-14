@@ -50,7 +50,7 @@ class Comment(models.Model):
     comment_post = models.ForeignKey(Pencil, on_delete=models.CASCADE)
     comment_author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment_text = models.TextField()
-    comment_published_date = models.DateTimeField(timezone.localtime(timezone.now()))
+    comment_published_date = models.DateTimeField(default=timezone.localtime(timezone.now()))
 
     def published_date(self):
         return self.comment_published_date

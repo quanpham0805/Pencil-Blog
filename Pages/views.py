@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .form import RegisterForm
+from .form import RegisterForm, CommentForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Pencil, PencilManufacturer, PencilType, Comment
@@ -33,8 +33,28 @@ def single_slug(request, single_slug):
 
     return HttpResponse(f"'{single_slug}' is not available")
 
+def add_comment(request, single_slug):
+    if request.method == "POST":
+        print("came here")
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            TComment = form.save(commit=False)
+            # commit=False tells Django that "Don't send this to database yet.
+            TPost = Pencil.objects.get(pencil_slug=single_slug)
+            TComment.comment_post = TPost
+            TComment.comment_author = request.user
+            TComment.save()
+            return redirect("/")
+        else:
+            messages.error(request, "comment not successfully added")
+            return redirect("/")
+
+    form = CommentForm()
+    return redirect("/")
+
 def register(request):
     if request.user.is_authenticated:
+        messages.warning(request, "You are already logged in 😉")
         return redirect('/')
 
     if request.method == "POST":
@@ -54,12 +74,9 @@ def register(request):
                   template_name = "register.html",
                   context = {"form": form})
 
-def info_once_only(request, msg):
-    if msg not in [m.message for m in messages.get_messages(request)]:
-        messages.warning(request, msg)
-
 def login_request(request):
     if request.user.is_authenticated:
+        messages.warning(request, "You are already logged in 😉")
         return redirect('/')
 
     if request.method == 'POST':
