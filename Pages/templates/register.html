@@ -1,7 +1,10 @@
+<!-- register page -->
+
 {% extends 'base.html' %}
 
 {% block content %}
 
+<!-- style for the page -->
 <style>
 	.signup-form {
 		width: 390px;
@@ -14,6 +17,7 @@
 	}
 	.signup-form .input-group {
 		flex-direction:	row-reverse;
+		/*reverse display to use css trick*/
 	}
 	.signup-form h2 {
 		color: #636363;
@@ -86,6 +90,8 @@
 	.signup-form .form-control:focus {
 		border-color: #0275d8;
 	}
+	/*use the below css to change color of border when focus. Use a css trick to select without using javascript*/
+	/*reverse the display so that we can use css selector efficiently*/
 	.signup-form .form-control:focus + .input-group-prepend .input-group-text {
 		border-color: #0275d8;
 	}
@@ -101,7 +107,9 @@
 	<form method="POST">
 		{% csrf_token %}
 		<h2>Create Account</h2>
+		<!-- form group that has information about the registration -->
         <div class="form-group {% if form.username.errors %}form-group-invalid{% endif %}">
+        	<!-- the input field and the icon are reversed for css selectors trick -->
 			<div class="input-group">
 				<input
 					type="text"
@@ -116,6 +124,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any error -->
 			{% if form.username.errors %}
 			<div class="text-danger">
 				{% for err in form.username.errors %}
@@ -129,6 +138,7 @@
         </div>
 
         <div class="form-group {% if form.email.errors %}form-group-invalid{% endif %}">
+        	<!-- the input field and the icon are reversed for css selectors trick -->
 			<div class="input-group">
 				<input
 					type="email"
@@ -143,6 +153,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any error -->
 			{% if form.email.errors %}
 			<div class="text-danger">
 				{% for err in form.email.errors %}
@@ -156,6 +167,7 @@
         </div>
 
 		<div class="form-group {% if form.password1.errors %}form-group-invalid{% endif %}">
+			<!-- the input field and the icon are reversed for css selectors trick -->
 			<div class="input-group">
 				<input
 					type="password"
@@ -170,6 +182,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any error -->
 			{% if form.password1.errors %}
 			<div class="text-danger">
 				{% for err in form.password1.errors %}
@@ -183,6 +196,7 @@
         </div>
 
 		<div class="form-group {% if form.password2.errors %}form-group-invalid{% endif %}">
+			<!-- the input field and the icon are reversed for css selectors trick -->
 			<div class="input-group">
 				<input
 					type="password"
@@ -198,6 +212,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any error -->
 			{% if form.password2.errors %}
 			<div class="text-danger">
 				{% for err in form.password2.errors %}
@@ -211,6 +226,7 @@
         </div>
 
         <div class="form-group {% if form.first_name.errors %}form-group-invalid{% endif %}">
+        	<!-- the input field and the icon are reversed for css selectors trick -->
 			<div class="input-group">
 				<input
 					type="text"
@@ -225,6 +241,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any error -->
 			{% if form.first_name.errors %}
 			<div class="text-danger">
 				{% for err in form.first_name.errors %}
@@ -238,6 +255,7 @@
         </div>
 
         <div class="form-group">
+        	<!-- the input field and the icon are reversed for css selectors trick -->
 			<div class="input-group">
 				<input
 					type="text"
@@ -252,6 +270,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any error -->
 			{% if form.last_name.errors %}
 			<div class="text-danger">
 				{% for err in form.last_name.errors %}

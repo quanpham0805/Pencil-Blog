@@ -1,3 +1,6 @@
+<!-- mainpage -->
+
+<!-- below will replace block content in the base -->
 {% extends 'base.html' %}
 
 {% block content %}
@@ -8,8 +11,11 @@
 	}
 </style>
 
+<!-- the information for the main page. We use types as the variable, and it is -->
+<!-- passed here through views -->
 <div class="container mt-5">
 	<div class="row">
+		<!-- loop through objects -->
 		{% for typ in types %}
 			<div class="col-md-4 col-sm-6 col-12 pb-4 d-flex align-items-stretch">
 				<div class="card">
@@ -24,8 +30,6 @@
 			  	</div>
 			</div>
 	  	{% endfor %}
-
-
 	</div>
 </div>
 

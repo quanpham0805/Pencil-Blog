@@ -1,6 +1,11 @@
+#import needed stuffs
+
 from django.urls import path
 
 from . import views
+
+# the url for out page. First parameter is the url, second is the views function to
+# process the request, third param is the name to call it in the templates
 
 urlpatterns = [
     path('', views.home, name='home'),

@@ -1,4 +1,7 @@
+<!-- display messages if there is any -->
+
 {% if messages %}
+<!-- define some style for the display -->
 <style>
     .message-wrapper {
         position: fixed;
@@ -29,6 +32,7 @@
         background-color: #17a2b8;
     }
 </style>
+<!-- jquery to show toast messages -->
 <script>
     $(document).ready(function(){
       $('.toast').toast('show');
@@ -36,7 +40,7 @@
 </script>
 <div class="message-wrapper">
 {% for msg in messages %}
-    <!-- <p>{{msg.tags}}</p> -->
+    <!-- show messages and use different color for each type of message. Delay 1.5s -->
     <div class="toast" data-autohide="true" data-delay="1500">
         {% if msg.tags == 'success'%}
         <div class="toast-header toast-header-success">

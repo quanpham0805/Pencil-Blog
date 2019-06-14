@@ -1,9 +1,14 @@
+# customize the admin.
+
 from django.contrib import admin
 from .models import PencilType, PencilManufacturer, Pencil, Comment
 
 # Register your models here.
 
+# admin for the type.
 class PencilTypeAdmin(admin.ModelAdmin):
+	# oder by the name, display id, type_name and type_slug column, allow
+	# search name and description, and the fields to display clean data settings.
 	odering = ['type_name']
 	list_display = ['id', 'type_name', 'type_slug']
 	search_fields = ['type_name', 'type_description']
@@ -14,7 +19,11 @@ class PencilTypeAdmin(admin.ModelAdmin):
 		("Image", {"fields": ["type_img"]})
 	]
 
+# manufacturer admin
 class PencilManugacturerAdmin(admin.ModelAdmin):
+	# oder by name, display id, name and type corresponding
+	# allow search name and description
+	# use fieldset to group the setting in the manufacturer
     ordering = ['manufacturer_name']
     list_display = ['id', 'manufacturer_name', 'manufacturer_for_type']
     search_fields = ['manufacturer_name', 'manufacturer_description']
@@ -25,10 +34,16 @@ class PencilManugacturerAdmin(admin.ModelAdmin):
 		("Image", {"fields": ["manufacturer_img"]})
     ]
 
+# admin for pencil.
 class PencilAdmin(admin.ModelAdmin):
-	ordering = ['pencil_published_date']
+	# oder by date published newest to oldest
+	# display name, author, slug and the corresponding manufacturer
+	# allow search for name, description
+	# allow filter author and published date
+	# field set to group setting
+	ordering = ['-pencil_published_date']
 	list_display = ['pencil_name', 'pencil_author', 'pencil_slug', 'pencil_for_manufacturer']
-	search_fields = ['pencil_name', 'pencil_description', 'pencil_for_manufacturer']
+	search_fields = ['pencil_name', 'pencil_description']
 	list_filter = ['pencil_author', 'pencil_published_date']
 	fieldsets = [
 		("Pencil", {'fields': ["pencil_name"]}),
@@ -40,9 +55,15 @@ class PencilAdmin(admin.ModelAdmin):
         ("Image", {"fields": ["pencil_img"]})
 	]
 
+# admin for comment.
 class CommentAdmin(admin.ModelAdmin):
-	ordering = ['comment_published_date']
-	list_display = ['comment_post', 'comment_author', 'published_date']
+	# oder newest to oldest comment
+	# display the post that comment, corresponding post, author and published date
+	# filter by author and date
+	# allow search for text
+	# field set to group the settings
+	ordering = ['-comment_published_date']
+	list_display = ['comment_text', 'comment_post', 'comment_author', 'published_date']
 	search_fields = ['comment_text']
 	list_filter = ['comment_author', 'comment_published_date']
 	fieldsets = [
@@ -52,6 +73,7 @@ class CommentAdmin(admin.ModelAdmin):
         ("Published date", {"fields": ["comment_published_date"]})
 	]
 
+# then register to the homepage.
 admin.site.register(PencilType, PencilTypeAdmin)
 admin.site.register(PencilManufacturer, PencilManugacturerAdmin)
 admin.site.register(Pencil, PencilAdmin)

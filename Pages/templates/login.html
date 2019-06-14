@@ -1,7 +1,10 @@
+<!-- login page -->
+
 {% extends 'base.html' %}
 
 {% block content %}
 
+<!-- beautify the login page -->
 <style>
 	.login-form {
 		width: 390px;
@@ -14,6 +17,7 @@
 	}
 	.login-form .input-group {
 		flex-direction:	row-reverse;
+		/*reverse display to use css trick*/
 	}
 	.login-form h2 {
 		color: #636363;
@@ -70,6 +74,8 @@
 	.login-form .form-control:focus {
 		border-color: #0275d8;
 	}
+	/*use the below css to change color of border when focus. Use a css trick to select without using javascript*/
+	/*reverse the display so that we can use css selector efficiently*/
 	.login-form .form-control:focus + .input-group-prepend .input-group-text {
 		border-color: #0275d8;
 	}
@@ -82,11 +88,14 @@
 </style>
 
 <div class="login-form">
+	<!-- use the form with post method -->
 	<form method="POST">
 		{% csrf_token %}
 		<h2>Login</h2>
+		<!-- form group for login -->
 		<div class="form-group">
 			<div class="input-group">
+				<!-- the input field and the icon are reversed for css selectors trick -->
 				<input
 					type="text"
 					class="form-control {% if form.errors %}is-invalid{% endif %}"
@@ -115,6 +124,7 @@
 					</span>
 				</div>
 			</div>
+			<!-- show any errors -->
 			{% if form.errors %}
 			<div class="text-danger">
 				<small>
