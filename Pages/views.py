@@ -32,7 +32,13 @@ def single_slug(request, single_slug):
 
         # iterate through data
         for TVal in TManufacturers.all():
-            # get the pencils that have the same manufacturer, sort in oldest to newest order.
+            # get the pencils that have the same manufacturer first, but we cannot use earliest here because it could throw an error if there is no field.
+            temp = Pencil.objects.filter(pencil_for_manufacturer__manufacturer_name=TVal.manufacturer_name)
+            # no data then just skip
+            if len(temp) == 0:
+                continue
+
+            # then we can get data with sorted date, oldest to latest
             temp = Pencil.objects.filter(pencil_for_manufacturer__manufacturer_name=TVal.manufacturer_name).earliest("pencil_published_date")
             # then the key is each manufacturer, and the value is the pencil_slug. The purpose is to get the slug
             manufacturerURL[TVal] = temp.pencil_slug
